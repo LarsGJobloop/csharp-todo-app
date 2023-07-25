@@ -49,17 +49,17 @@ app.MapGet("/todoitems/{id}", (int id) => {
 
 // POST   /todoitems	        Add a new item	          To-do item	To-do item
 app.MapPost("/todoitems", () => {
-  return Results.Accepted("Add a new item");
+  return Results.Ok("Add a new item");
 });
 
 // PUT    /todoitems/{id}    	Update an existing item  	To-do item	None
 app.MapPut("/todoitems/{id}", (int id) => {
-  return Results.Accepted("Update an existing item");
+  return Results.Ok("Update an existing item");
 });
 
 // DELETE /todoitems/{id}    	Delete an item          	None	      None
 app.MapDelete("/todoitems/{id}", () => {
-  return Results.Accepted("Delete an item");
+  return Results.Ok("Delete an item");
 });
 
 // =================================== /Endpoints ==========================================
