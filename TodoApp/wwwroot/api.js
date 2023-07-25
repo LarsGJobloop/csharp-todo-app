@@ -46,6 +46,7 @@ let uniqueId = 0;
  * @param {name: string} todo
  */
 export async function createTodo(todo) {
+  console.log("Creating new Todo\n" + `Todo: ${todo}`)
   const options = {
     method: "POST",
     headers: {
