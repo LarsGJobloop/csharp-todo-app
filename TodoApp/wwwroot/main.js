@@ -20,9 +20,8 @@ async function getAllTodoes() {
     headers,
   }
 
-  console.log(await customFetch("/todoitems", options))
+  return await customFetch("/todoitems", options)
 }
-getAllTodoes()
 
 // GET /todoitems/complete	Get completed to-do items	None	Array of to-do items
 async function getCompletedTodos() {
@@ -33,9 +32,8 @@ async function getCompletedTodos() {
     headers,
   }
 
-  console.log(await customFetch("/todoitems/complete", options))
+  return await customFetch("/todoitems/complete", options)
 }
-getCompletedTodos()
 
 // GET /todoitems/{id}	Get an item by ID	None	To-do item
 async function getTodo(id) {
@@ -46,10 +44,8 @@ async function getTodo(id) {
     headers,
   }
 
-  console.log(await customFetch(`/todoitems/${id}`, options))
+  return await customFetch(`/todoitems/${id}`, options)
 }
-getTodo(1)
-getTodo(3)
 
 // POST /todoitems	Add a new item	To-do item	To-do item
 async function createTodo() {
@@ -60,9 +56,8 @@ async function createTodo() {
     headers,
   }
 
-  console.log(await customFetch("/todoitems", options))
+  return await customFetch("/todoitems", options)
 }
-createTodo()
 
 // PUT /todoitems/{id}	Update an existing item  	To-do item	None
 async function updateTodo(id) {
@@ -73,10 +68,8 @@ async function updateTodo(id) {
     headers,
   }
 
-  console.log(await customFetch(`/todoitems/${id}`, options))
+  return await customFetch(`/todoitems/${id}`, options)
 }
-updateTodo(1)
-updateTodo(2)
 
 // DELETE /todoitems/{id}    	Delete an item    	None	None
 async function deleteTodo(id) {
@@ -87,7 +80,20 @@ async function deleteTodo(id) {
     headers,
   }
 
-  console.log(await customFetch(`/todoitems/${id}`, options))
+  return await customFetch(`/todoitems/${id}`, options)
 }
-deleteTodo(1)
-deleteTodo(2)
+
+Promise.allSettled([
+  () => getAllTodoes(),
+  () => getCompletedTodos(),
+  () => getTodo(1),
+  () => getTodo(3),
+  () => createTodo(),
+  () => updateTodo(1),
+  () => updateTodo(2),
+  () => deleteTodo(1),
+  () => deleteTodo(2),
+].map(request => request()))
+  .then(resolved => resolved.forEach(promise => {
+    console.log(promise.status + "\n" + promise.value)
+  }))
