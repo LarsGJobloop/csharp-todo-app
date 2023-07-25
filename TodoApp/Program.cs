@@ -17,6 +17,7 @@ var app = builder.Build();
 app.UseStaticFiles();
 
 
+// ==================================== Endpoints ==========================================
 // Setup the endpoints and the methods that will
 // run when those endpoints are requested
 
@@ -28,12 +29,41 @@ app.MapGet("/", () => {
 app.MapGet("/index.html", () => Results.Redirect("/"));
 
 
+
+// VERB   Endpoint         	  Description       	      Body	      Return Type
+
 // GET    /todoitems         	Get all to-do items	      None	      Array of to-do items
+app.MapGet("/todoitems", () => {
+  return Results.Ok("Get all to-do items");
+});
+
 // GET    /todoitems/complete	Get completed to-do items	None      	Array of to-do items
+app.MapGet("/todoitems/complete", () => {
+  return Results.Ok("Get completed to-do items");
+});
+
 // GET    /todoitems/{id}	    Get an item by ID       	None	      To-do item
+app.MapGet("/todoitems/{id}", (int id) => {
+  return Results.Ok("Get an item by ID");
+});
+
 // POST   /todoitems	        Add a new item	          To-do item	To-do item
+app.MapPost("/todoitems", () => {
+  return Results.Accepted("Add a new item");
+});
+
 // PUT    /todoitems/{id}    	Update an existing item  	To-do item	None
+app.MapPut("/todoitems/{id}", (int id) => {
+  return Results.Accepted("Update an existing item");
+});
+
 // DELETE /todoitems/{id}    	Delete an item          	None	      None
+app.MapDelete("/todoitems/{id}", () => {
+  return Results.Accepted("Delete an item");
+});
+
+// =================================== /Endpoints ==========================================
+
 
 // Finally start the server
 app.Run();
