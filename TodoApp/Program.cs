@@ -30,9 +30,9 @@ app.MapGet("/index.html", () => Results.Redirect("/"));
 
 
 
-// VERB   Endpoint         	  Description       	      Body	      Return Type
 
-// GET    /todoitems         	Get all to-do items	      None	      Array of to-do items
+// VERB   Endpoint         	    Description       	        Body	      Return Type
+// GET    /todoitems         	  Get all to-do items	        None	      Array of to-do items
 app.MapGet("/todoitems", () => {
   var body = new []
   {
@@ -42,7 +42,8 @@ app.MapGet("/todoitems", () => {
   return Results.Ok(body);
 });
 
-// GET    /todoitems/complete	Get completed to-do items	None      	Array of to-do items
+// VERB   Endpoint         	    Description       	        Body	      Return Type
+// GET    /todoitems/complete	  Get completed to-do items	  None      	Array of to-do items
 app.MapGet("/todoitems/complete", () => {
   var body = new []
   {
@@ -52,14 +53,16 @@ app.MapGet("/todoitems/complete", () => {
   return Results.Ok(body);
 });
 
-// GET    /todoitems/{id}	    Get an item by ID       	None	      To-do item
+// VERB   Endpoint         	    Description       	        Body	      Return Type
+// GET    /todoitems/{id}	      Get an item by ID       	  None	      To-do item
 app.MapGet("/todoitems/{id}", (int id) => {
   var body = new {Id = id, Name = "Walk dog", IsComplete = false};
   
   return Results.Ok(body);
 });
 
-// POST   /todoitems	        Add a new item	          To-do item	To-do item
+// VERB   Endpoint         	    Description       	        Body	      Return Type
+// POST   /todoitems	          Add a new item	            To-do item	To-do item
 app.MapPost("/todoitems", (Todo todo) => {
   Console.WriteLine(todo);
 
@@ -68,7 +71,8 @@ app.MapPost("/todoitems", (Todo todo) => {
   return Results.Created($"/todoitems/{todo.Id}", todo);
 });
 
-// PUT    /todoitems/{id}    	Update an existing item  	To-do item	None
+// VERB   Endpoint         	    Description       	        Body	      Return Type
+// PUT    /todoitems/{id}    	  Update an existing item  	  To-do item	None
 app.MapPut("/todoitems/{id}", (int id, Todo todo) => {
   Console.WriteLine(todo);
 
@@ -77,7 +81,8 @@ app.MapPut("/todoitems/{id}", (int id, Todo todo) => {
   return Results.Ok();
 });
 
-// DELETE /todoitems/{id}    	Delete an item          	None	      None
+// VERB   Endpoint         	    Description       	        Body	      Return Type
+// DELETE /todoitems/{id}    	  Delete an item          	  None	      None
 app.MapDelete("/todoitems/{id}", () => {
   return Results.Ok("Delete an item");
 });
