@@ -47,24 +47,36 @@ async function getTodo(id) {
 }
 
 // POST /todoitems	Add a new item	To-do item	To-do item
-async function createTodo() {
-  const headers = new Headers()
-
+let uniqueId = 0;
+/**
+ * @param {name: string} todo
+ */
+async function createTodo(todo) {
   const options = {
     method: "POST",
-    headers,
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({Id: uniqueId, Name: todo, IsComplete: false})
   }
+
+  // Increment id
+  uniqueId++
 
   return await customFetch("/todoitems", options)
 }
 
 // PUT /todoitems/{id}	Update an existing item  	To-do item	None
-async function updateTodo(id) {
-  const headers = new Headers()
-
+/**
+ * @param {name: string} todo
+ */
+async function updateTodo(id, todo) {
   const options = {
     method: "PUT",
-    headers,
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({Id: id, Name: todo, IsComplete: false})
   }
 
   return await customFetch(`/todoitems/${id}`, options)
@@ -83,17 +95,33 @@ async function deleteTodo(id) {
 }
 
 Promise.allSettled([
+  () => "Get all todoes:\n",
   () => getAllTodoes(),
+
+  () => "\nCreate todoes:\n",
+  () => createTodo("Walk dog"),
+  () => createTodo("Feed shark"),
+  () => createTodo("Mince meat"),
+  () => createTodo("Greet aliens"),
+
+  () => "\nGet all todoes:\n",
+  () => getAllTodoes(),
+
+  () => "\nGet all completed todoes:\n",
   () => getCompletedTodos(),
+
+  () => "\nGet single todoes:\n",
   () => getTodo(1),
   () => getTodo(3),
-  () => createTodo(),
-  () => updateTodo(1),
-  () => updateTodo(2),
+
+  () => "\nUpdate todo:\n",
+  () => updateTodo(1, "Wallow in money"),
+  () => updateTodo(2, "Invent the universe"),
+  
+  () => "\nDelet todo:\n",
   () => deleteTodo(1),
   () => deleteTodo(2),
 ].map(request => request()))
   .then(resolved => resolved.forEach(promise => {
-    console.log(promise.status + "\n")
     console.dir(promise.value)
   }))

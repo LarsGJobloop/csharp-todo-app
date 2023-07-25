@@ -60,15 +60,21 @@ app.MapGet("/todoitems/{id}", (int id) => {
 });
 
 // POST   /todoitems	        Add a new item	          To-do item	To-do item
-app.MapPost("/todoitems", () => {
+app.MapPost("/todoitems", (Todo todo) => {
+  Console.WriteLine(todo);
+
   var body = new {Id = 0, Name = "Walk dog", IsComplete = false};
   
-  return Results.Ok(body);
+  return Results.Created($"/todoitems/{todo.Id}", todo);
 });
 
 // PUT    /todoitems/{id}    	Update an existing item  	To-do item	None
-app.MapPut("/todoitems/{id}", (int id) => {
-  return Results.Ok("Update an existing item");
+app.MapPut("/todoitems/{id}", (int id, Todo todo) => {
+  Console.WriteLine(todo);
+
+  var body = new {Id = 0, Name = "Walk dog", IsComplete = false};
+  
+  return Results.Ok();
 });
 
 // DELETE /todoitems/{id}    	Delete an item          	None	      None
