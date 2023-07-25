@@ -94,5 +94,6 @@ Promise.allSettled([
   () => deleteTodo(2),
 ].map(request => request()))
   .then(resolved => resolved.forEach(promise => {
-    console.log(promise.status + "\n" + promise.value)
+    console.log(promise.status + "\n")
+    console.dir(promise.value)
   }))
