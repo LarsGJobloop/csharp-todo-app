@@ -1,6 +1,5 @@
 async function customFetch(endpoint, options,) {
-  const baseUrl = "https://localhost:7018"
-  const response = await fetch(baseUrl + endpoint, options)
+  const response = await fetch(endpoint, options)
 
   if(!response.ok) {
     return `${options.method} request to ${endpoint} failed`
