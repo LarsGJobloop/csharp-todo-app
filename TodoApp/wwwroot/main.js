@@ -10,13 +10,15 @@ createTodoList(todoListRoot, todoList)
 const todoForm = document.getElementById("todoForm")
 todoForm.addEventListener("submit", async event => {
   event.preventDefault()
+  const formElement = event.target
 
-  const formData = new FormData(event.target)
+  const formData = new FormData(formElement)
 
   let data = {}
   for( const [key, value] of formData.entries()) {
     data[key] = value
   }
-  console.log(data.name)
-  createTodo(data.name)
+  await createTodo(data.name)
+
+  formElement.reset()
 })

@@ -2,7 +2,7 @@ async function customFetch(endpoint, options,) {
   const response = await fetch(endpoint, options)
 
   if(!response.ok) {
-    return `${options.method} request to ${endpoint} failed`
+    console.error(`Request failed with code: ${response.status}`)
   }
 
   const data = await response.json()
@@ -52,7 +52,7 @@ export async function createTodo(todo) {
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({Id: uniqueId, Name: todo, IsComplete: false})
+    body: JSON.stringify({Name: todo, IsComplete: false})
   }
 
   // Increment id
@@ -93,22 +93,14 @@ export async function deleteTodo(id) {
 Promise.allSettled([
   () => "Get all todoes:\n",
   () => getAllTodoes(),
-
-  () => "\nCreate todoes:\n",
-  () => createTodo("Walk dog"),
-  () => createTodo("Mince meat"),
-  () => createTodo("Feed shark"),
-  () => createTodo("Greet aliens"),
-
-  () => "\nGet all todoes:\n",
-  () => getAllTodoes(),
-
+  
   () => "\nGet all completed todoes:\n",
   () => getCompletedTodos(),
 
   () => "\nGet single todoes:\n",
   () => getTodo(1),
   () => getTodo(3),
+  () => getTodo(3242342),
 
   () => "\nUpdate todo:\n",
   () => updateTodo(1, "Wallow in money"),
