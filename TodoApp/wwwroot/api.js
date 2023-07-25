@@ -13,11 +13,8 @@ async function customFetch(endpoint, options,) {
 // VERB   Endpoint         	    Description       	        Body	      Return Type
 // GET    /todoitems	          Get all to-do items     	  None      	Array of to-do items
 export async function getAllTodoes() {
-  const headers = new Headers()
-
   const options = {
-    method: "GET",
-    headers,
+    method: "GET"
   }
 
   return await customFetch("/todoitems", options)
@@ -25,11 +22,8 @@ export async function getAllTodoes() {
 // VERB   Endpoint         	    Description       	        Body	      Return Type
 // GET    /todoitems/complete	  Get completed to-do items	  None      	Array of to-do items
 export async function getCompletedTodos() {
-  const headers = new Headers()
-
   const options = {
-    method: "GET",
-    headers,
+    method: "GET"
   }
 
   return await customFetch("/todoitems/complete", options)
@@ -38,11 +32,8 @@ export async function getCompletedTodos() {
 // VERB   Endpoint         	    Description       	        Body	      Return Type
 // GET    /todoitems/{id}	      Get an item by ID	          None	      To-do item
 export async function getTodo(id) {
-  const headers = new Headers()
-
   const options = {
     method: "GET",
-    headers,
   }
 
   return await customFetch(`/todoitems/${id}`, options)
@@ -89,11 +80,8 @@ export async function updateTodo(id, todo) {
 // VERB   Endpoint         	    Description       	        Body	      Return Type
 // DELETE /todoitems/{id}    	  Delete an item    	        None	      None
 export async function deleteTodo(id) {
-  const headers = new Headers()
-
   const options = {
     method: "DELETE",
-    headers,
   }
 
   return await customFetch(`/todoitems/${id}`, options)
