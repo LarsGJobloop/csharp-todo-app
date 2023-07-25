@@ -34,22 +34,36 @@ app.MapGet("/index.html", () => Results.Redirect("/"));
 
 // GET    /todoitems         	Get all to-do items	      None	      Array of to-do items
 app.MapGet("/todoitems", () => {
-  return Results.Ok("Get all to-do items");
+  var body = new []
+  {
+    new {Id = 0, Name = "Walk dog", IsComplete = false},
+  };
+  
+  return Results.Ok(body);
 });
 
 // GET    /todoitems/complete	Get completed to-do items	None      	Array of to-do items
 app.MapGet("/todoitems/complete", () => {
-  return Results.Ok("Get completed to-do items");
+  var body = new []
+  {
+    new {Id = 0, Name = "Walk dog", IsComplete = false},
+  };
+  
+  return Results.Ok(body);
 });
 
 // GET    /todoitems/{id}	    Get an item by ID       	None	      To-do item
 app.MapGet("/todoitems/{id}", (int id) => {
-  return Results.Ok("Get an item by ID");
+  var body = new {Id = id, Name = "Walk dog", IsComplete = false};
+  
+  return Results.Ok(body);
 });
 
 // POST   /todoitems	        Add a new item	          To-do item	To-do item
 app.MapPost("/todoitems", () => {
-  return Results.Ok("Add a new item");
+  var body = new {Id = 0, Name = "Walk dog", IsComplete = false};
+  
+  return Results.Ok(body);
 });
 
 // PUT    /todoitems/{id}    	Update an existing item  	To-do item	None
