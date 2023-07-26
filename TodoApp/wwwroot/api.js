@@ -87,29 +87,3 @@ export async function deleteTodo(id) {
 
   return await customFetch(`/todoitems/${id}`, options)
 }
-
-
-// ==================== Tests =======================
-Promise.allSettled([
-  () => "Get all todoes:\n",
-  () => getAllTodoes(),
-  
-  () => "\nGet all completed todoes:\n",
-  () => getCompletedTodos(),
-
-  () => "\nGet single todoes:\n",
-  () => getTodo(1),
-  () => getTodo(3),
-  () => getTodo(3242342),
-
-  () => "\nUpdate todo:\n",
-  () => updateTodo(1, "Wallow in money"),
-  () => updateTodo(2, "Invent the universe"),
-  
-  () => "\nDelet todo:\n",
-  () => deleteTodo(1),
-  () => deleteTodo(2),
-].map(request => request()))
-  .then(resolved => resolved.forEach(promise => {
-    console.dir(promise.value)
-  }))
