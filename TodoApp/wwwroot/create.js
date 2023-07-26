@@ -1,3 +1,5 @@
+import { deleteTodo } from "./api.js"
+
 /**
  * A Todo item
  * @typedef {{
@@ -18,6 +20,11 @@ function createTodo(todo) {
 
   todoElement.innerHTML = `<p>${todo.name}</p>`
 
+  const deleteButton = document.createElement("button")
+  deleteButton.textContent = "delete"
+  deleteButton.addEventListener("click", () => deleteTodo(todo.id))
+  todoElement.appendChild(deleteButton)
+
   return todoElement
 }
 
@@ -28,7 +35,7 @@ function createTodo(todo) {
  * @param {HTMLUListElement} root
  * @param {Todo[]} todoList
  */
-export function createTodoList(root, todoList) {
+export function renderTodoList(root, todoList) {
   if(!root) {
     console.error("Could not find root element")
     return
@@ -38,5 +45,6 @@ export function createTodoList(root, todoList) {
 
   todoList.forEach(todo => list.appendChild(createTodo(todo)))
 
+  root.innerHTML = "";
   root.appendChild(list);
 }

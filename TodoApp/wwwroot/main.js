@@ -1,10 +1,14 @@
 import { getAllTodoes, createTodo } from "./api.js"
-import { createTodoList } from "./create.js"
+import { renderTodoList } from "./create.js"
 
-// Create todo list
-const todoList = await getAllTodoes()
+// Render todo list
+async function render() {
+  const todoList = await getAllTodoes()
+  renderTodoList(todoListRoot, todoList)
+}
+
 const todoListRoot = document.getElementById("todoes")
-createTodoList(todoListRoot, todoList)
+render()
 
 // Submit Formdata
 const todoForm = document.getElementById("todoForm")
@@ -21,4 +25,6 @@ todoForm.addEventListener("submit", async event => {
   await createTodo(data.name)
 
   formElement.reset()
+
+  render()
 })
