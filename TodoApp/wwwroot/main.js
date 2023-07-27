@@ -1,30 +1,28 @@
-import { getAllTodoes, createTodo } from "./api.js"
-import { renderTodoList } from "./create.js"
+import * as api from "./api.js";
+import { parseFormData } from "./utilis.js"
+import {TodoList} from "./todolist.js"
 
-// Render todo list
-async function render() {
-  const todoList = await getAllTodoes()
-  renderTodoList(todoListRoot, todoList)
-}
+const todoList = await TodoList(api)
 
-const todoListRoot = document.getElementById("todoes")
-render()
-
-// Submit Formdata
-const todoForm = document.getElementById("todoForm")
-todoForm.addEventListener("submit", async event => {
+// Submit Todo
+/**
+ * @this {HTMLFormElement}
+ * @param {SubmitEvent} event 
+ */
+async function submitTodo(event) {
   event.preventDefault()
-  const formElement = event.target
 
-  const formData = new FormData(formElement)
+  const newTodo = parseFormData(this)
+  await api.createTodo(newTodo)
 
-  let data = {}
-  for( const [key, value] of formData.entries()) {
-    data[key] = value
-  }
-  await createTodo(data.name)
+  this.reset()
 
-  formElement.reset()
+  todoList.update()
+}
+document.getElementById("todoForm").addEventListener("submit", submitTodo)
 
-  render()
-})
+
+
+// Sorting
+document.getElementById("IdAscending").addEventListener("click", () => todoList.sort("IdAscending"))
+document.getElementById("IdDescending").addEventListener("click", () => todoList.sort("IdDescending"))

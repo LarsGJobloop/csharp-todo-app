@@ -1,4 +1,12 @@
 /**
+ * @typedef {{
+ *  id: number,
+ *  name?: string,
+ *  isComplete: boolean
+ * }} Todo
+ */
+
+/**
  * Convinence wrapper for the fetch API containing
  * the common logic for communicating with the backend
  * Could also be used for a centralized place for error handling
@@ -13,13 +21,14 @@ async function customFetch(endpoint, options,) {
     throw new Error({message: `Request failed with code: ${response.status}`, error: response.status})
   }
 
-  const data = await response.json()
-
-  return data
+  return response.status !== 204 ? await response.json() : null
 }
 
 // VERB   Endpoint         	    Description       	        Body	      Return Type
 // GET    /todoitems	          Get all to-do items     	  None      	Array of to-do items
+/**
+ * @returns {Promise<Todo[]>}
+ */
 export async function getAllTodoes() {
   return await customFetch("/todoitems", {method: "GET"})
 }
@@ -38,7 +47,7 @@ export async function getTodo(id) {
 // VERB   Endpoint         	    Description       	        Body	      Return Type
 // POST   /todoitems	          Add a new item	            To-do item	To-do item
 /**
- * @param {name: string} todo
+ * @param {{name: string}} todo
  */
 export async function createTodo(todo) {
   const options = {
@@ -46,7 +55,7 @@ export async function createTodo(todo) {
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({Name: todo, IsComplete: false})
+    body: JSON.stringify({Name: todo.name, IsComplete: false})
   }
   return await customFetch("/todoitems", options)
 }
@@ -54,7 +63,7 @@ export async function createTodo(todo) {
 // VERB   Endpoint         	    Description       	        Body	      Return Type
 // PUT    /todoitems/{id}	      Update an existing item  	  To-do item	None
 /**
- * @param {name: string} todo
+ * @param {{name: string}} todo
  */
 export async function updateTodo(id, todo) {
   const options = {
@@ -62,7 +71,7 @@ export async function updateTodo(id, todo) {
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({Name: todo, IsComplete: false})
+    body: JSON.stringify({Name: todo.name, IsComplete: todo.isComplete})
   }
 
   return await customFetch(`/todoitems/${id}`, options)
