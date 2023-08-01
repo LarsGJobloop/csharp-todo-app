@@ -6,8 +6,10 @@ using Microsoft.EntityFrameworkCore;
 // web server
 var builder = WebApplication.CreateBuilder(args);
 
-// Setup the database for our server
+// Setup and register the database for our server
 builder.Services.AddDbContext<TodoDb>(options => options.UseInMemoryDatabase("TodoList"));
+
+// Error handling for database
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 // Configuration finished, now create the web server
@@ -38,6 +40,21 @@ app.MapGet("/todoitems", async (TodoDb database) => {
 });
 
 // VERB   Endpoint         	    Description       	        Body	      Return Type
+// POST   /todoitems	          Add a new item	            To-do item	To-do item
+app.MapPost("/todoitems", async (Todo todo, TodoDb database) => {
+  database.Todos.Add(todo);
+  await database.SaveChangesAsync();
+  
+  return Results.Created($"/todoitems/{todo.Id}", todo);
+});
+
+
+
+
+
+
+
+// VERB   Endpoint         	    Description       	        Body	      Return Type
 // GET    /todoitems/complete	  Get completed to-do items	  None      	Array of to-do items
 app.MapGet("/todoitems/complete", async (TodoDb database) => {
   var completeTodoes = await database.Todos.Where(todo => todo.IsComplete).ToListAsync();
@@ -54,15 +71,6 @@ app.MapGet("/todoitems/{id}", async (int id, TodoDb database) => {
     else return Results.NotFound();
 });
 
-// VERB   Endpoint         	    Description       	        Body	      Return Type
-// POST   /todoitems	          Add a new item	            To-do item	To-do item
-app.MapPost("/todoitems", async (Todo todo, TodoDb database) => {
-
-  database.Todos.Add(todo);
-  await database.SaveChangesAsync();
-  
-  return Results.Created($"/todoitems/{todo.Id}", todo);
-});
 
 // VERB   Endpoint         	    Description       	        Body	      Return Type
 // PUT    /todoitems/{id}    	  Update an existing item  	  To-do item	None
