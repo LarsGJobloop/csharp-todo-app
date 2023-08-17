@@ -48,12 +48,6 @@ app.MapPost("/todoitems", async (Todo todo, TodoDb database) => {
   return Results.Created($"/todoitems/{todo.Id}", todo);
 });
 
-
-
-
-
-
-
 // VERB   Endpoint         	    Description       	        Body	      Return Type
 // GET    /todoitems/complete	  Get completed to-do items	  None      	Array of to-do items
 app.MapGet("/todoitems/complete", async (TodoDb database) => {
@@ -70,7 +64,6 @@ app.MapGet("/todoitems/{id}", async (int id, TodoDb database) => {
     if (todo is null) return Results.Ok(todo);
     else return Results.NotFound();
 });
-
 
 // VERB   Endpoint         	    Description       	        Body	      Return Type
 // PUT    /todoitems/{id}    	  Update an existing item  	  To-do item	None

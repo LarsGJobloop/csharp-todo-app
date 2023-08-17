@@ -1,28 +1,59 @@
-import * as api from "./api.js";
-import { parseFormData } from "./utilis.js"
-import {TodoList} from "./todolist.js"
+const todoForm = document.getElementById("todoForm")
+todoForm.addEventListener("submit", createTodo)
 
-const todoList = await TodoList(api)
-
-// Submit Todo
 /**
- * @this {HTMLFormElement}
- * @param {SubmitEvent} event 
+ * @param {SubmitEvent} submitEvent
  */
-async function submitTodo(event) {
-  event.preventDefault()
+async function createTodo(submitEvent) {
+  submitEvent.preventDefault()
+  const todoData = parseFormData(submitEvent.target)
 
-  const newTodo = parseFormData(this)
-  await api.createTodo(newTodo)
+  const response = await fetch(
+    "http://localhost:5048/todoitems",
+    {
+      method: "POST",
+      body: JSON.stringify(todoData),
+      headers: {
+        "Content-Type": "application/json"
+      }
+    }
+  )
 
-  this.reset()
+  if (!response.status === 201) {
+    console.error("Server responded with status: " + response.status)
+    return
+  }
 
-  todoList.update()
+  const data = await response.json()
+
+  createTodoCard(data)
 }
-document.getElementById("todoForm").addEventListener("submit", submitTodo)
 
+const getAllTodoesButton = document.getElementById("getAllTodes")
+getAllTodoesButton.addEventListener("click", getAllTodes)
 
+async function getAllTodes() {
+  try {
+    const response = await fetch("http://localhost:5048/todoitems")
+    const data = await response.json()
+    console.log(data)
+  } catch (error) {
+    throw new Error("Something went wrong")
+  }
+}
 
-// Sorting
-document.getElementById("IdAscending").addEventListener("click", () => todoList.sort("IdAscending"))
-document.getElementById("IdDescending").addEventListener("click", () => todoList.sort("IdDescending"))
+function parseFormData(formElement) {
+  const raw = new FormData(formElement)
+
+  let formData = {}
+
+  raw.forEach((value, key) => {
+    formData[key] = value
+  })
+
+  return formData
+}
+
+function createTodoCard(todoData) {
+  console.log(todoData)
+}

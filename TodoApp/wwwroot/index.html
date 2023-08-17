@@ -8,39 +8,18 @@
   <link rel="stylesheet" href="style.css">
 
   <title>Todo App</title>
-  <script defer type="module" src="utilis.js"></script>
-  <script defer type="module" src="todolist.js"></script>
-  <script defer type="module" src="api.js"></script>
   <script defer type="module" src="main.js"></script>
 </head>
 <body>
-  <header>
-    <h1>Todo App</h1>
-  </header>
+
+  <form id="todoForm">
+    <label for="name">Todo</label>
+    <input type="text" name="name">
+
+    <button type="submit">Add</button>
+  </form>
   
-  <main>
-    <section>
-      <h2>Todo Input</h2>
+  <button id="getAllTodes">Get All Todoes</button>
 
-      <form id="todoForm">
-        <label for="name">Name:</label>
-        <input type="text" id="name" name="name" autocomplete="off" required><br>
-    
-        <button type="submit">Add</button>
-      </form>
-
-      <button id="IdAscending">Ascending</button>
-      <button id="IdDescending">Descending</button>
-    </section>
-
-    <section>
-      <h2>List of Todos</h2>
-      <ul id="todoes"></ul>
-    </section>
-  </main>
-
-  <footer>
-    <h2>&copy; Lars Gunnar</h2>
-  </footer>
 </body>
 </html>
